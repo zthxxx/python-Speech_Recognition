@@ -1,0 +1,6 @@
+*.wav
+*.pyc
+.idea/
+*.bak
+*.ini
+!Ring01.wav
