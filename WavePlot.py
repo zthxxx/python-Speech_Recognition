@@ -3,13 +3,13 @@ import wave
 import pylab
 import numpy
 
-def wave_plotting(speech,block = False):
+def wave_plotting(sonic,block = False):
     #读取参数
-    wave_channels = speech.get('wave_channels')
-    sample_width = speech.get('sample_width')
-    sample_frequency = speech.get('sample_frequency')
-    sample_length = speech.get('sample_length')
-    bin_data = speech.get('bin_data')
+    wave_channels = sonic.get('wave_channels')
+    sample_width = sonic.get('sample_width')
+    sample_frequency = sonic.get('sample_frequency')
+    sample_length = sonic.get('sample_length')
+    bin_data = sonic.get('bin_data')
 
     #接下来需要根据声道数和量化单位，将读取的二进制数据转换为一个可以计算的数组
     number_type = {1: numpy.int8, 2: numpy.int16, 3: numpy.int32}
@@ -47,14 +47,14 @@ def wav_file_plotting(filename,block = False):
     bin_data = wav_file.readframes(sample_length)
     wav_file.close()
 
-    speech = {
+    sonic = {
         'wave_channels':wave_channels,
         'sample_width':sample_width,
         'sample_frequency':sample_frequency,
         'sample_length':sample_length,
         'bin_data':bin_data
             }
-    wave_plotting(speech, block)
+    wave_plotting(sonic, block)
 
 
 
