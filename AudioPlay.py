@@ -40,7 +40,7 @@ def wav_file_play(filename):
     player = WavePlayer(sound_conf)
 
     # readframes：读取声音数据，传递一个参数指定需要读取的长度（以取样点为单位），readframes返回的是二进制数据
-    chunk = 10240
+    chunk = 1024
     while True:
         bin_data = wav_file.readframes(chunk)
         if bin_data == "": break
