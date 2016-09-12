@@ -11,6 +11,14 @@ def wave_plotting(sonic,block = False):
     sample_length = sonic.get('sample_length')
     bin_data = sonic.get('bin_data')
 
+    if isinstance(bin_data, list):
+        bin_buffer = bytearray()
+        for data in bin_data:
+            bin_buffer.extend(data)
+        bin_data = bytes(bin_buffer)
+    elif not isinstance(bin_data, bytes):
+        raise Exception("Type of bin_data need bytes!")
+
     #接下来需要根据声道数和量化单位，将读取的二进制数据转换为一个可以计算的数组
     number_type = {1: numpy.int8, 2: numpy.int16, 3: numpy.int32}
     wave_data = numpy.fromstring(bin_data, dtype=number_type.get(sample_width))

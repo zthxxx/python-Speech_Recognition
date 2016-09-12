@@ -17,7 +17,13 @@ class WavePlayer:
         )
 
     def wave_play(self,bin_data):
-        self.stream.write(bin_data)
+        if isinstance(bin_data, list):
+            for data in bin_data:
+                self.stream.write(data)
+        elif not isinstance(bin_data, bytes):
+            raise Exception("Type of bin_data need bytes!")
+        else:
+            self.stream.write(bin_data)
 
     def close(self):
         self.stream.close()
