@@ -26,14 +26,15 @@ class AudioRecorder:
         wf.setnchannels(self.wave_channels)
         wf.setsampwidth(self.sample_width)
         wf.setframerate(self.sample_frequency)
-        wf.writeframes(''.join(self.wave_buffer))
+        for data_block in self.wave_buffer:
+            wf.writeframes(data_block)
         wf.close()
 
     def recording(self, record_conf, record_max_second = 10):
         threshold_value = record_conf.get('threshold_value', 700)   #判断开始结束量化声音大小的阈值
         series_min_count = record_conf.get('series_min_count', 30)  #判定开始的序列中大于阈值的点的最小数目
         block_min_count = record_conf.get('block_min_count', 8)     #做为最小时间和块间延时的大小
-        last_audio_data = ""        #上一个数据包
+        last_audio_data = bytes()        #上一个数据包
         block_inverse_count = 0     #当前录音块离结束的距离
 
         while True:
@@ -45,13 +46,20 @@ class AudioRecorder:
             if large_threshold_count > series_min_count:
                 block_inverse_count = block_min_count
             if block_inverse_count > 0:
-                self.wave_buffer.append(last_audio_data)
                 block_inverse_count -= 1
                 if block_inverse_count == 0:
+                    sonic = {
+                        'wave_channels':self.wave_channels,
+                        'sample_width':self.sample_width,
+                        'sample_frequency':self.sample_frequency,
+                        'bin_data':self.wave_buffer
+                    }
+                    yield sonic
                     filename = datetime.now().strftime("%Y-%m-%d_%H_%M_%S") + ".wav"
                     self.save_wave_file(filename)
                     print(filename, "saved")
                     self.wave_buffer = list()
+                self.wave_buffer.append(last_audio_data)
             last_audio_data = string_audio_data
 
 
@@ -69,7 +77,10 @@ if __name__ == '__main__':
         'series_min_count':30,
         'block_min_count':8
     }
-    recorder.recording(record_conf)
+    recording = recorder.recording(record_conf)
+    recording.__next__()
+    for sonic in recording:
+        print(sonic.get("bin_data"))
     print("OK!")
 
 
