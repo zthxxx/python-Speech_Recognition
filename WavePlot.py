@@ -2,6 +2,8 @@
 import wave
 import pylab
 import numpy
+from WavFileReader import *
+
 
 def wave_plotting(sonic,block = False):
     #读取参数
@@ -43,30 +45,10 @@ def wave_plotting(sonic,block = False):
 
 
 def wav_file_plotting(filename,block = False):
-    # 打开WAV文档
-    wav_file = wave.open(filename, "rb")
-    # 读取格式信息
-    wave_parameter = wav_file.getparams()
-    #声道数, 量化位数（byte单位）, 采样频率, 采样点数, 压缩类型, 压缩类型的描述。wav非压缩，因此忽略最后两个信息
-    # (wave_channels, sample_width, sample_frequency, sample_length, compress_type, compress_comment)
-    wave_channels, sample_width, sample_frequency, sample_length = wave_parameter[:4]
-
-    # readframes：读取声音数据，传递一个参数指定需要读取的长度（以取样点为单位），readframes返回的是二进制数据
-    bin_data = wav_file.readframes(sample_length)
-    wav_file.close()
-
-    sonic = {
-        'wave_channels':wave_channels,
-        'sample_width':sample_width,
-        'sample_frequency':sample_frequency,
-        'sample_length':sample_length,
-        'bin_data':bin_data
-            }
+    sonic = wav_file_read(filename)
     wave_plotting(sonic, block)
-
 
 
 if __name__ == '__main__':
     # wav_file_plotting('wav1.wav')
     wav_file_plotting("Ring01.wav", True)
-    # wav_file_plotting('wav1.wav', True)

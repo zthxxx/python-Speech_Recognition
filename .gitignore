@@ -1,6 +1,14 @@
 *.wav
-*.pyc
 .idea/
+*.pyc
+*.db
 *.bak
 *.ini
+*.conf
+*.sql
 !Ring01.wav
+!BaiduOAuthSample.ini
+__pycache__/
+nohup.out
+*.log
+.project
