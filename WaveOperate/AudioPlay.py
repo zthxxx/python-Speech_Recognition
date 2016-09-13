@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import pyaudio
-import wave
 from WaveOperate.WavFileReader import *
 
 class WavePlayer:

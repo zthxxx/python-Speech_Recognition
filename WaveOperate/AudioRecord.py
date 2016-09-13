@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-import pyaudio
 import numpy
-import wave
-from WaveOperate.WavePlot import *
+# from WaveOperate.WavePlot import *
 from WaveOperate.AudioPlay import *
 import logging
 

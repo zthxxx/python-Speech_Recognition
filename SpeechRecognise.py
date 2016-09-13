@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
-import pyaudio
-import numpy
-import wave
-import pycurl
 import json
 import uuid
 import logging
 from WebCurl.WebCurl import *
-from WaveOperate.WavePlot import *
-from WaveOperate.AudioPlay import *
+# from WaveOperate.WavePlot import *
+# from WaveOperate.AudioPlay import *
 from WaveOperate.AudioRecord import *
 try:
     from io import BytesIO as StringIO
@@ -120,6 +116,7 @@ if __name__ == "__main__":
         'series_min_count':30,
         'block_min_count':8
     }
+    logging.warning("speech recognition record start.")
     for err_no, result in speech_recognition(access_token, sonic_conf, record_conf):
         print(err_no, result)
 
