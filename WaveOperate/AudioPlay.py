@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pyaudio
 import wave
-from WavFileReader import *
+from WaveOperate.WavFileReader import *
 
 class WavePlayer:
     def __init__(self, sound_conf = {}):

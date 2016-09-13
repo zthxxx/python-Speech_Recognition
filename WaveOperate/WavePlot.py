@@ -2,7 +2,7 @@
 import wave
 import pylab
 import numpy
-from WavFileReader import *
+from WaveOperate.WavFileReader import *
 
 
 def wave_plotting(sonic,block = False):

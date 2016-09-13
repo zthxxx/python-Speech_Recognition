@@ -6,10 +6,10 @@ import pycurl
 import json
 import uuid
 import logging
-from HTMLCurl import *
-from WavePlot import *
-from AudioPlay import *
-from AudioRecord import *
+from WebCurl.WebCurl import *
+from WaveOperate.WavePlot import *
+from WaveOperate.AudioPlay import *
+from WaveOperate.AudioRecord import *
 try:
     from io import BytesIO as StringIO
 except ImportError:
@@ -83,20 +83,23 @@ def post_recognition(token, sonic_conf, record):
     if err_no:
         err_msg = json_data.get('err_msg')
         logging.debug("Speech recognition ERROR!")
-        logging.info("Error! " + err_msg)
+        logging.debug("Error! " + err_msg)
         return err_no, "Error! " + err_msg
     else:
         result = json_data.get('result')
-        logging.info(result)
+        logging.debug(result)
         return err_no, result
 
 def speech_recognition(token, sonic_conf, record_conf):
     recorder = AudioRecorder(sonic_conf)
     recording = recorder.recording(record_conf)
     for sonic in recording:
-    # sonic = wav_file_read('xxx.wav')
-    # if 'bin_data' in sonic:
         yield post_recognition(token, sonic_conf, sonic)
+
+def wav_file_recognition(token, filename, sonic_conf):
+    sonic = wav_file_read(filename)
+    if 'bin_data' in sonic:
+        return post_recognition(token, sonic_conf, sonic)
 
 
 if __name__ == "__main__":
@@ -118,7 +121,7 @@ if __name__ == "__main__":
         'block_min_count':8
     }
     for err_no, result in speech_recognition(access_token, sonic_conf, record_conf):
-        print(result)
+        print(err_no, result)
 
 
 

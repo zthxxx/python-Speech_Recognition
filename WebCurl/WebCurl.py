@@ -16,7 +16,7 @@ def time_reckon(function):
         time_start = time.time()
         result = function(*args,**kwargs)
         time_end = time.time()
-        logging.debug(("Time reckon",time_end - time_start))
+        logging.info(("Time reckon",time_end - time_start))
         return result
     return decorated_fun
 
