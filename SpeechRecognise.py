@@ -95,7 +95,7 @@ class BaiduSpeechRecognition:
 
     def speech_recognition(self):
         recorder = AudioRecorder(self.sonic_conf)
-        recording = recorder.recording(self.record_conf)
+        recording = recorder.record_speech(self.record_conf)
         for sonic in recording:
             yield self.post_recognition(sonic)
 
@@ -115,7 +115,7 @@ class BaiduSpeechRecognition:
 
     def speech_callback_recognition(self, callback = None, traceback = None):
         recorder = AudioRecorder(self.sonic_conf)
-        recording = recorder.recording(self.record_conf)
+        recording = recorder.record_speech(self.record_conf)
         for sonic in recording:
             post_thread = threading.Thread(target=self.recognition_thread, args=(sonic, callback, traceback))
             post_thread.start()

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 import numpy
-# from WaveOperate.WavePlot import *
+from WaveOperate.WavePlot import *
 from WaveOperate.AudioPlay import *
 import logging
 
@@ -37,7 +37,12 @@ class AudioRecorder:
             wf.writeframes(wave_buffer)
         wf.close()
 
-    def recording(self, record_conf, record_max_second = 10):
+    def record_realtime(self):
+        while True:
+            bin_audio_data = self.stream.read(self.block_size)
+            yield bin_audio_data
+
+    def record_speech(self, record_conf, record_max_second = 10):
         threshold_value = record_conf.get('threshold_value', 700)   #判断开始结束量化声音大小的阈值
         series_min_count = record_conf.get('series_min_count', 30)  #判定开始的序列中大于阈值的点的最小数目
         block_min_count = record_conf.get('block_min_count', 8)     #做为最小时间和块间延时的大小
@@ -45,10 +50,9 @@ class AudioRecorder:
         last_audio_data = bytes()   #上一个数据包
         block_inverse_count = 0     #当前录音块离结束的距离
 
-        while True:
-            string_audio_data = self.stream.read(self.block_size)
+        for bin_audio_data in self.record_realtime():
             number_type = {1: numpy.int8, 2: numpy.int16, 3: numpy.int32}
-            audio_data = numpy.fromstring(string_audio_data, dtype=number_type.get(self.sample_width))
+            audio_data = numpy.fromstring(bin_audio_data, dtype=number_type.get(self.sample_width))
             large_threshold_count = numpy.sum(audio_data > threshold_value)#超过阈值的点的个数
             logging.debug((large_threshold_count, numpy.max(audio_data)))
             if large_threshold_count > series_min_count:
@@ -71,12 +75,12 @@ class AudioRecorder:
                     }
                     yield sonic
                     self.wave_buffer = list()
-            last_audio_data = string_audio_data
+            last_audio_data = bin_audio_data
 
-    def record_wav(self, record_conf, filename = None, **kwargs):
+    def record_speech_wav(self, record_conf, filename = None, **kwargs):
         if not filename:
             filename = datetime.now().strftime("%Y%m%d%H%M%S") + ".wav"
-        self.recording(record_conf, **kwargs).__next__()
+        self.record_speech(record_conf, **kwargs).__next__()
         self.save_wave_file(filename)
         print(filename, "saved")
 
@@ -87,7 +91,7 @@ if __name__ == '__main__':
         'wave_channels':1,
         'sample_width':2,
         'sample_frequency':16000,
-        'block_size':2000
+        'block_size':1000
     }
     wave_player = WavePlayer(sonic_conf)
     recorder = AudioRecorder(sonic_conf)
@@ -96,13 +100,22 @@ if __name__ == '__main__':
         'series_min_count':30,
         'block_min_count':8
     }
-    # recorder.record_wav(record_conf)
-    recording = recorder.recording(record_conf)
-    for sonic in recording:
-        audio_data = sonic.get('bin_data')
-        # recorder.save_wave_file(datetime.now().strftime("%Y%m%d%H%M%S") + ".wav", wave_data)
-        wave_player.wave_play(audio_data)
-        # wave_plotting(sonic,True)
+    # # recorder.record_speech_wav(record_conf)
+    # recording = recorder.record_speech(record_conf)
+    # for sonic in recording:
+    #     audio_data = sonic.get('bin_data')
+    #     # recorder.save_wave_file(datetime.now().strftime("%Y%m%d%H%M%S") + ".wav", wave_data)
+    #     wave_player.wave_play(audio_data)
+    #     # wave_plotting(sonic,True)
+
+    recording = recorder.record_realtime()
+    sonic = {
+        **sonic_conf,
+        'sample_length':sonic_conf['block_size']
+    }
+    for bin_audio_data in recording:
+        wave_player.wave_thread_play(bin_audio_data)
+        sonic['bin_data'] = bin_audio_data
     print("OK!")
 
 

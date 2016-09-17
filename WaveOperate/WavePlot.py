@@ -5,7 +5,7 @@ import numpy
 from WaveOperate.WavFileReader import *
 
 
-def wave_plotting(sonic,block = False):
+def wave_plotting(sonic, block = False):
     #读取参数
     wave_channels = sonic.get('wave_channels')
     sample_width = sonic.get('sample_width')
@@ -44,11 +44,11 @@ def wave_plotting(sonic,block = False):
     pylab.show()
 
 
-def wav_file_plotting(filename,block = False):
+def wav_file_plotting(filename, *args, **kwargs):
     sonic = wav_file_read(filename)
-    wave_plotting(sonic, block)
+    wave_plotting(sonic, *args, **kwargs)
 
 
 if __name__ == '__main__':
-    # wav_file_plotting('wav1.wav')
-    wav_file_plotting("Ring01.wav", True)
+    # wav_file_plotting('ding.wav')
+    wav_file_plotting("Ring01.wav", block = True)

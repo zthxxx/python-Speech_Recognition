@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 import pyaudio
+import threading
+try:
+    import Queue
+except:
+    import queue as Queue
 from WaveOperate.WavFileReader import *
 
 class WavePlayer:
@@ -23,6 +28,10 @@ class WavePlayer:
             raise Exception("Type of bin_data need bytes!")
         else:
             self.stream.write(bin_data)
+
+    def wave_thread_play(self, bin_data):
+        play_thread = threading.Thread(target=self.wave_play, args=(bin_data,))
+        play_thread.start()
 
     def close(self):
         self.stream.close()
