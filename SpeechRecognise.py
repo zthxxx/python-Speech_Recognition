@@ -54,27 +54,22 @@ class BaiduSpeechRecognition:
         self.record_conf = record_conf
         self.cuid = get_mac_address() #用户 ID，推荐使用设备mac 地址/手机IMEI 等设备唯一性参数
 
-    def post_recognition(self,record):
-        wave_channels = self.sonic_conf.get('wave_channels', 1) #声道数
-        sample_width = self.sonic_conf.get('sample_width', 2)   #量化宽度(byte)
-        sample_frequency = self.sonic_conf.get('sample_frequency', 16000)#采样频率
-        wave_buffer = record.get('bin_data')
-        sample_length = record.get('sample_length')
-        if not wave_buffer or wave_channels is not 1:
+    def post_recognition(self,sonic):
+        if not sonic.wave_bin_data or sonic.channels is not 1:
             raise Exception("wave_channels only support 1!")
-        if isinstance(wave_buffer, list):
+        if isinstance(sonic.wave_bin_data, list):
             audio_data = bytearray()
-            for data in wave_buffer:
+            for data in sonic.wave_bin_data:
                 audio_data.extend(data)
             audio_data = bytes(audio_data)
-        elif not isinstance(wave_buffer, bytes):
+        elif not isinstance(sonic.wave_bin_data, bytes):
             raise Exception("Type of bin_data need bytes!")
         else:
-            audio_data = wave_buffer
-        bin_data_length = sample_length * sample_width
+            audio_data = sonic.wave_bin_data
+        bin_data_length = sonic.sample_length * sonic.sample_width
         voice_service_url = 'http://vop.baidu.com/server_api' + '?cuid=' + self.cuid + '&token=' + self.token #+ '&lan=en'
         head = [
-            'Content-Type: audio/pcm; rate=%d' % sample_frequency,
+            'Content-Type: audio/pcm; rate=%d' % sonic.sample_frequency,
             'Content-Length: %d' % bin_data_length
         ]
         logging.info("Post start")
@@ -93,7 +88,7 @@ class BaiduSpeechRecognition:
             logging.debug(result)
             return err_no, result
 
-    def speech_recognition(self):
+    def speech_recognize(self):
         recorder = AudioRecorder(self.sonic_conf)
         recording = recorder.record_speech(self.record_conf)
         for sonic in recording:
@@ -101,10 +96,9 @@ class BaiduSpeechRecognition:
 
     def wav_file_recognition(self, filename):
         sonic = wav_file_read(filename)
-        if 'bin_data' in sonic:
-            return self.post_recognition(sonic)
+        return self.post_recognition(sonic)
 
-    def recognition_thread(self, sonic, callback = None, traceback = None):
+    def recognize_callback(self, sonic, callback = None, traceback = None):
         err_no, result = self.post_recognition(sonic)
         if err_no:
             if traceback:
@@ -113,11 +107,11 @@ class BaiduSpeechRecognition:
             if callback:
                 callback(err_no, result)
 
-    def speech_callback_recognition(self, callback = None, traceback = None):
+    def recognize_async(self, callback = None, traceback = None):
         recorder = AudioRecorder(self.sonic_conf)
         recording = recorder.record_speech(self.record_conf)
         for sonic in recording:
-            post_thread = threading.Thread(target=self.recognition_thread, args=(sonic, callback, traceback))
+            post_thread = threading.Thread(target=self.recognize_callback, args=(sonic, callback, traceback))
             post_thread.start()
 
 
@@ -129,21 +123,23 @@ if __name__ == "__main__":
     # save_baidu_token_config(baidu_oauth_conf, access_token)
     access_token = get_baidu_token_config(baidu_oauth_conf)
     sonic_conf = {
-        'wave_channels':1,
+        'channels':1,
         'sample_width':2,
         'sample_frequency':16000,
-        'block_size':2000
+        'sample_length':2000
     }
+    sonic_conf = Sonic(**sonic_conf)
     record_conf = {
-        'threshold_value':600,
+        'gate_value':700,
         'series_min_count':30,
         'block_min_count':8
     }
+    record_conf = RecordConf(**record_conf)
     logging.warning("speech recognition record start.")
     speech_recognizer = BaiduSpeechRecognition(access_token, sonic_conf, record_conf)
     # for err_no, result in speech_recognizer.speech_recognition():
     #     print(err_no, result)
-    speech_recognizer.speech_callback_recognition(print, print)
+    speech_recognizer.recognize_async(print, print)
 
 
 
