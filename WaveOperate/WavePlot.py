@@ -5,7 +5,7 @@ import numpy
 from WaveOperate.WavFileReader import *
 
 
-def wave_plotting(sonic, block = False):
+def wave_plotting(sonic, block=False):
     if isinstance(sonic.wave_bin_data, list):
         bin_buffer = bytearray()
         for data in sonic.wave_bin_data:
@@ -44,4 +44,4 @@ def wav_file_plotting(filename, *args, **kwargs):
 
 if __name__ == '__main__':
     # wav_file_plotting('ding.wav')
-    wav_file_plotting("Ring01.wav", block = True)
+    wav_file_plotting("Ring01.wav", block=True)

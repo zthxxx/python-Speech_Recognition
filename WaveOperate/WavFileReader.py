@@ -2,7 +2,7 @@
 import wave
 from WaveOperate.Sonic import *
 
-def wav_file_block_read(filename, block_size = None):
+def wav_file_block_read(filename, block_size=None):
     # 打开WAV文档
     wav_file = wave.open(filename, "rb")
     # 读取格式信息

@@ -3,10 +3,6 @@ import json
 import uuid
 import logging
 import threading
-from WebCurl.WebCurl import *
-# from WaveOperate.WavePlot import *
-# from WaveOperate.AudioPlay import *
-from WaveOperate.AudioRecord import *
 try:
     from io import BytesIO as StringIO
 except ImportError:
@@ -14,8 +10,11 @@ except ImportError:
         from cStringIO import StringIO
     except ImportError:
         from StringIO import StringIO
+from WebCurl.WebCurl import *
+# from WaveOperate.WavePlot import *
+# from WaveOperate.AudioPlay import *
+from WaveOperate.AudioRecord import *
 from ConfigFileInfoParser.InitializationConfigParser import InitializationConfigParser
-
 
 
 def get_baidu_api_key_config(path):
@@ -44,8 +43,8 @@ def save_baidu_token_config(path, access_token):
     ini_Parser.SetOneKeyValue("ClientCredentials","access_token",access_token)
 
 def get_mac_address():
-    mac=uuid.UUID(int = uuid.getnode()).hex[-12:]
-    return "-".join([mac[e:e+2] for e in range(0,11,2)])
+    mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
+    return "-".join([mac[e:e + 2] for e in range(0, 11, 2)])
 
 class BaiduSpeechRecognition:
     def __init__(self, token, sonic_conf, record_conf):
@@ -98,7 +97,7 @@ class BaiduSpeechRecognition:
         sonic = wav_file_read(filename)
         return self.post_recognition(sonic)
 
-    def recognize_callback(self, sonic, callback = None, traceback = None):
+    def recognize_callback(self, sonic, callback=None, traceback=None):
         err_no, result = self.post_recognition(sonic)
         if err_no:
             if traceback:
@@ -107,7 +106,7 @@ class BaiduSpeechRecognition:
             if callback:
                 callback(err_no, result)
 
-    def recognize_async(self, callback = None, traceback = None):
+    def recognize_async(self, callback=None, traceback=None):
         recorder = AudioRecorder(self.sonic_conf)
         recording = recorder.record_speech(self.record_conf)
         for sonic in recording:

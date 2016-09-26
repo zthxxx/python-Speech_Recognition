@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
+import logging
 from datetime import datetime
 import numpy
 from WaveOperate.WavePlot import *
 from WaveOperate.AudioPlay import *
-import logging
 
 
 class RecordConf:
-    def __init__(self, gate_value = 700, series_min_count = 30, block_min_count = 8, record_max_second = 10):
+    def __init__(self, gate_value=700, series_min_count=30, block_min_count=8, record_max_second=10):
         self.gate_value = gate_value                #采样量化值静音判定门限
         self.series_min_count = series_min_count    #块序列采样波能量判定点数
         self.block_min_count = block_min_count      #有效块记录最小个数
         self.record_max_second = record_max_second  #录音最大时间秒数
 
 class AudioRecorder:
-    def __init__(self, sonic = Sonic(), block_size = None, **kwargs):
+    def __init__(self, sonic=Sonic(), block_size=None, **kwargs):
         self.sonic = sonic
         self.channels = sonic.channels     #声道数
         self.sample_width = sonic.sample_width     #量化宽度(byte)
@@ -34,7 +34,7 @@ class AudioRecorder:
             **kwargs
         )
 
-    def save_wave_file(self, filename, wave_buffer = None):
+    def save_wave_file(self, filename, wave_buffer=None):
         if not wave_buffer:
             wave_buffer = self.wave_buffer
         wf = wave.open(filename, 'wb')
@@ -80,7 +80,7 @@ class AudioRecorder:
                     self.wave_buffer = list()
             last_audio_data = bin_audio_data
 
-    def record_speech_wav(self, record_conf, filename = None):
+    def record_speech_wav(self, record_conf, filename=None):
         if not filename:
             filename = datetime.now().strftime("%Y%m%d%H%M%S") + ".wav"
         self.record_speech(record_conf).__next__()
@@ -105,8 +105,8 @@ if __name__ == '__main__':
     record_conf = RecordConf(**record_conf)
 
     wave_player = WavePlayer(sonic_conf)
-    recorder_main = AudioRecorder(sonic_conf, input_device_index = 1)
-    recorder_assist = AudioRecorder(sonic_conf, input_device_index = 2)
+    recorder_main = AudioRecorder(sonic_conf, input_device_index=1)
+    recorder_assist = AudioRecorder(sonic_conf, input_device_index=2)
 
     ##########保存文件测试
     # recorder.record_speech_wav(record_conf)
@@ -122,7 +122,6 @@ if __name__ == '__main__':
     recording_main = recorder_main.record_realtime()
     for bin_audio_data in recording_main:
         wave_player.wave_play_async(bin_audio_data)
-
 
     print("OK!")
 

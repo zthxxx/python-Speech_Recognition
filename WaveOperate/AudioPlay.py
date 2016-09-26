@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-import pyaudio
 import threading
 try:
     import Queue
 except:
     import queue as Queue
+import pyaudio
 from WaveOperate.Sonic import *
 from WaveOperate.WavFileReader import *
 
 class WavePlayer:
-    def __init__(self, sound_conf = Sonic(), **kwargs):
+    def __init__(self, sound_conf=Sonic(), **kwargs):
         channels = sound_conf.channels
         sample_width = sound_conf.sample_width
         sample_frequency = sound_conf.sample_frequency
