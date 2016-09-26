@@ -9,17 +9,18 @@ from WaveOperate.Sonic import *
 from WaveOperate.WavFileReader import *
 
 class WavePlayer:
-    def __init__(self, sound_conf = Sonic()):
+    def __init__(self, sound_conf = Sonic(), **kwargs):
         channels = sound_conf.channels
         sample_width = sound_conf.sample_width
         sample_frequency = sound_conf.sample_frequency
 
         self.player = pyaudio.PyAudio()
         self.stream = self.player.open(
-                format = self.player.get_format_from_width(sample_width),
-                channels = channels,
-                rate = sample_frequency,
-                output = True
+            format = self.player.get_format_from_width(sample_width),
+            channels = channels,
+            rate = sample_frequency,
+            output = True,
+            **kwargs
         )
 
     def wave_play(self,wave_bin_data):
@@ -31,7 +32,7 @@ class WavePlayer:
         else:
             self.stream.write(wave_bin_data)
 
-    def wave_thread_play(self, wave_bin_data):
+    def wave_play_async(self, wave_bin_data):
         play_thread = threading.Thread(target=self.wave_play, args=(wave_bin_data,))
         play_thread.start()
 
