@@ -104,7 +104,7 @@ if __name__ == '__main__':
         'sample_length':2048
     }
     sonic_conf = Sonic(**sonic_conf)
-    bandpass_filter = butter_bandpass_filter(150, 3000, sonic_conf.sample_frequency)
+    bandpass_filter = butter_bandpass_filter(150, 2000, sonic_conf.sample_frequency)
     record_conf = {
         'gate_value':700,
         'series_min_count':30,

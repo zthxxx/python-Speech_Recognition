@@ -3,7 +3,7 @@ import numpy
 from scipy import signal
 
 
-def butter_bandpass(low_cut, high_cut, sample_frequency, order=5):
+def butter_bandpass(low_cut, high_cut, sample_frequency, order=3):
     nyquist_f = 0.5 * sample_frequency
     low_point = low_cut / nyquist_f
     high_point = high_cut / nyquist_f
