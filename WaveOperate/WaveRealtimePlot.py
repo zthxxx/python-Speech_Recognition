@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import numpy as np
+import numpy
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from WaveOperate.AudioRecord import *
@@ -43,14 +43,13 @@ if __name__ == "__main__":
     }
     sonic_conf = Sonic(**sonic_conf)
     recorder = AudioRecorder(sonic_conf)
-    recording = recorder.record_realtime()
-
+    bandpass_filter = butter_bandpass_filter(150, 3000, sonic_conf.sample_frequency)
+    recording = recorder.record_realtime(bandpass_filter)
     def data_generator():
-        number_type = {1: numpy.int8, 2: numpy.int16, 3: numpy.int32}
         for bin_audio_data in recording:
             audio_data = numpy.fromstring(bin_audio_data, dtype=number_type.get(sonic_conf.sample_width))
             fft_data = numpy.abs(numpy.fft.rfft(audio_data) * 2 / sonic_conf.sample_length)
-            yield np.array(audio_data), np.array(fft_data)
+            yield numpy.array(audio_data), numpy.array(fft_data)
 
     bit_deep = 2 ** (8 * sonic_conf.sample_width - 1)
     sonic_curve_conf = {

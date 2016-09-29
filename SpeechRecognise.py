@@ -11,10 +11,10 @@ except ImportError:
     except ImportError:
         from StringIO import StringIO
 from WebCurl.WebCurl import *
-# from WaveOperate.WavePlot import *
-# from WaveOperate.AudioPlay import *
-from WaveOperate.AudioRecord import *
 from ConfigFileInfoParser.InitializationConfigParser import InitializationConfigParser
+from WaveOperate.AudioRecord import *
+from WaveOperate.WaveFilter import *
+
 
 
 def get_baidu_api_key_config(path):
@@ -125,13 +125,15 @@ if __name__ == "__main__":
         'channels':1,
         'sample_width':2,
         'sample_frequency':16000,
-        'sample_length':2000
+        'sample_length':2048
     }
     sonic_conf = Sonic(**sonic_conf)
+    bandpass_filter = butter_bandpass_filter(150, 3000, sonic_conf.sample_frequency)
     record_conf = {
         'gate_value':700,
         'series_min_count':30,
-        'block_min_count':8
+        'block_min_count':8,
+        'speech_filter':bandpass_filter
     }
     record_conf = RecordConf(**record_conf)
     logging.warning("speech recognition record start.")

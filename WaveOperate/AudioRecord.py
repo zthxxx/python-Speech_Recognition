@@ -2,16 +2,19 @@
 import logging
 from datetime import datetime
 import numpy
+from WaveOperate.Sonic import *
 from WaveOperate.WavePlot import *
 from WaveOperate.AudioPlay import *
+from WaveOperate.WaveFilter import *
 
 
 class RecordConf:
-    def __init__(self, gate_value=700, series_min_count=30, block_min_count=8, record_max_second=10):
+    def __init__(self, gate_value=700, series_min_count=30, block_min_count=8, record_max_second=10, speech_filter=None):
         self.gate_value = gate_value                #采样量化值静音判定门限
         self.series_min_count = series_min_count    #块序列采样波能量判定点数
         self.block_min_count = block_min_count      #有效块记录最小个数
         self.record_max_second = record_max_second  #录音最大时间秒数
+        self.speech_filter = speech_filter
 
 class AudioRecorder:
     def __init__(self, sonic=Sonic(), block_size=None, **kwargs):
@@ -50,17 +53,21 @@ class AudioRecorder:
             wf.writeframes(wave_buffer)
         wf.close()
 
-    def record_realtime(self):
+    def record_realtime(self, speech_filter=None):
         while True:
             bin_audio_data = self.stream.read(self.block_size)
+            if speech_filter:
+                audio_data = numpy.fromstring(bin_audio_data, dtype=number_type.get(self.sample_width))
+                audio_data = speech_filter(audio_data)
+                audio_data = number_type.get(self.sample_width)(audio_data)
+                bin_audio_data = bytes(audio_data)
             yield bin_audio_data
 
     def record_speech(self, record_conf):
         squeak_min_count = 4
         last_audio_data = bytes()   #上一个数据包
         block_inverse_count = 0     #当前录音块离结束的距离
-        for bin_audio_data in self.record_realtime():
-            number_type = {1: numpy.int8, 2: numpy.int16, 3: numpy.int32}
+        for bin_audio_data in self.record_realtime(record_conf.speech_filter):
             audio_data = numpy.fromstring(bin_audio_data, dtype=number_type.get(self.sample_width))
             large_threshold_count = numpy.sum(audio_data > record_conf.gate_value)#超过阈值的点的个数
             logging.debug((large_threshold_count, numpy.max(audio_data)))
@@ -97,10 +104,12 @@ if __name__ == '__main__':
         'sample_length':2048
     }
     sonic_conf = Sonic(**sonic_conf)
+    bandpass_filter = butter_bandpass_filter(150, 3000, sonic_conf.sample_frequency)
     record_conf = {
         'gate_value':700,
         'series_min_count':30,
-        'block_min_count':8
+        'block_min_count':8,
+        'speech_filter':bandpass_filter
     }
     record_conf = RecordConf(**record_conf)
 
@@ -108,18 +117,20 @@ if __name__ == '__main__':
     recorder_main = AudioRecorder(sonic_conf, input_device_index=1)
     recorder_assist = AudioRecorder(sonic_conf, input_device_index=2)
 
-    ##########保存文件测试
-    # recorder.record_speech_wav(record_conf)
+
+
+    #########保存文件测试
+    # recorder_main.record_speech_wav(record_conf)
 
     ##########不保存录语音测试
-    # recording = recorder.record_speech(record_conf)
-    # for sonic in recording:
-    #     audio_data = sonic.wave_bin_data
-    #     # recorder.save_wave_file(datetime.now().strftime("%Y%m%d%H%M%S") + ".wav", wave_data)
-    #     wave_player.wave_play(audio_data)
+    recording = recorder_main.record_speech(record_conf)
+    for sonic in recording:
+        audio_data = sonic.wave_bin_data
+        # recorder.save_wave_file(datetime.now().strftime("%Y%m%d%H%M%S") + ".wav", wave_data)
+        wave_player.wave_play(audio_data)
 
     #########实时语音测试
-    recording_main = recorder_main.record_realtime()
+    recording_main = recorder_main.record_realtime(bandpass_filter)
     for bin_audio_data in recording_main:
         wave_player.wave_play_async(bin_audio_data)
 

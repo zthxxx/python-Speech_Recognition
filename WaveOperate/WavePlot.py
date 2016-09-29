@@ -15,7 +15,6 @@ def wave_plotting(sonic, block=False):
         raise Exception("Type of bin_data need bytes!")
 
     #接下来需要根据声道数和量化单位，将读取的二进制数据转换为一个可以计算的数组
-    number_type = {1: numpy.int8, 2: numpy.int16, 3: numpy.int32}
     wave_data = numpy.fromstring(sonic.wave_bin_data, dtype=number_type.get(sonic.sample_width))
     #现在我们得到的wave_data是一个一维的short类型的数组，但是因为我们的声音文件是双声道的，
     # 因此它由左右两个声道的取样交替构成：LRLRLRLR....LR（L表示左声道的取样值，R表示右声道取样值）。修改wave_data的sharp

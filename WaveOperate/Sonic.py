@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 import wave
+import numpy
+
+
+number_type = {1: numpy.int8, 2: numpy.int16, 3: numpy.int32}
 
 class Sonic:
     def __init__(self, channels=1, sample_width=2, sample_frequency=16000, sample_length=0, wave_bin_data=None):
