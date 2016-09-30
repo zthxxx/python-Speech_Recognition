@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 import threading
-try:
-    import Queue
-except:
-    import queue as Queue
 import pyaudio
 from WaveOperate.Sonic import *
 from WaveOperate.WavFileReader import *

@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 import logging
 from datetime import datetime
+try:
+    import queue
+except:
+    import Queue as queue
 import numpy
 from WaveOperate.Sonic import *
 from WaveOperate.WavePlot import *
@@ -27,6 +31,7 @@ class AudioRecorder:
         else:
             self.block_size = sonic.sample_length  #wave录音块与缓冲大小
         self.wave_buffer = list()#录音保存块
+        self.record_cache = queue.Queue()
         self.player = pyaudio.PyAudio()
         self.stream = self.player.open(
             format = self.player.get_format_from_width(self.sample_width),
@@ -54,8 +59,15 @@ class AudioRecorder:
         wf.close()
 
     def record_realtime(self, speech_filter=None):
+        def record_async(self):
+            while True:
+                bin_audio_data = self.stream.read(self.block_size)
+                self.record_cache.put(bin_audio_data)
+
+        record_thread = threading.Thread(target=record_async, args=(self,))
+        record_thread.start()
         while True:
-            bin_audio_data = self.stream.read(self.block_size)
+            bin_audio_data = self.record_cache.get()
             if speech_filter:
                 audio_data = numpy.fromstring(bin_audio_data, dtype=number_type.get(self.sample_width))
                 audio_data = speech_filter(audio_data)
