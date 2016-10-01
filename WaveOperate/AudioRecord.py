@@ -65,13 +65,18 @@ class AudioRecorder:
                 self.record_cache.put(bin_audio_data)
 
         record_thread = threading.Thread(target=record_async, args=(self,))
+        record_thread.setDaemon(True)
         record_thread.start()
+        bin_audio_data = self.record_cache.get()
+        last_data = bin_audio_data
         while True:
             bin_audio_data = self.record_cache.get()
             if speech_filter:
-                audio_data = numpy.fromstring(bin_audio_data, dtype=number_type.get(self.sample_width))
+                audio_data = numpy.fromstring(last_data + bin_audio_data, dtype=number_type.get(self.sample_width))
                 audio_data = speech_filter(audio_data)
+                audio_data = audio_data[self.block_size:]
                 audio_data = number_type.get(self.sample_width)(audio_data)
+                last_data = bin_audio_data
                 bin_audio_data = bytes(audio_data)
             yield bin_audio_data
 
@@ -116,30 +121,29 @@ if __name__ == '__main__':
         'sample_length':2048
     }
     sonic_conf = Sonic(**sonic_conf)
-    bandpass_filter = butter_bandpass_filter(150, 2000, sonic_conf.sample_frequency)
+    bandpass_filter = butter_bandpass(150, 2000, sonic_conf.sample_frequency)
     record_conf = {
         'gate_value':700,
         'series_min_count':30,
-        'block_min_count':8,
+        'block_min_count':16,
         'speech_filter':bandpass_filter
     }
     record_conf = RecordConf(**record_conf)
 
     wave_player = WavePlayer(sonic_conf)
     recorder_main = AudioRecorder(sonic_conf, input_device_index=1)
-    recorder_assist = AudioRecorder(sonic_conf, input_device_index=2)
-
-
+    # recorder_assist = AudioRecorder(sonic_conf, input_device_index=2)
 
     #########保存文件测试
     # recorder_main.record_speech_wav(record_conf)
 
+
     ##########不保存录语音测试
-    recording = recorder_main.record_speech(record_conf)
-    for sonic in recording:
-        audio_data = sonic.wave_bin_data
-        # recorder.save_wave_file(datetime.now().strftime("%Y%m%d%H%M%S") + ".wav", wave_data)
-        wave_player.wave_play(audio_data)
+    # recording = recorder_main.record_speech(record_conf)
+    # for sonic in recording:
+    #     audio_data = sonic.wave_bin_data
+    #     # recorder.save_wave_file(datetime.now().strftime("%Y%m%d%H%M%S") + ".wav", wave_data)
+    #     wave_player.wave_play(audio_data)
 
     #########实时语音测试
     recording_main = recorder_main.record_realtime(bandpass_filter)

@@ -43,7 +43,7 @@ if __name__ == "__main__":
     }
     sonic_conf = Sonic(**sonic_conf)
     recorder = AudioRecorder(sonic_conf)
-    bandpass_filter = butter_bandpass_filter(150, 2000, sonic_conf.sample_frequency)
+    bandpass_filter = butter_bandpass(150, 2000, sonic_conf.sample_frequency)
     recording = recorder.record_realtime(bandpass_filter)
     def data_generator():
         for bin_audio_data in recording:
