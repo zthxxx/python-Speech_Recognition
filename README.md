@@ -67,6 +67,7 @@ python3.5 SpeechRecognise.py
 `BaiduOAuth.ini` 为百度 API key 配置文件。  
 
 本项目语音识别的思路是：
+
 1. 录音产生音频流
 2. 音频流实时带通滤波，除去低音和高音
 3. 通过过零率 ZSR 和短时能量 Ep 进行 VAD 语音端点检测
