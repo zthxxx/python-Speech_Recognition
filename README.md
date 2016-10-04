@@ -2,6 +2,7 @@
 ----------------------------------------------
 `python3` `语音识别` `百度语音API`
 
+[![Build Status](https://api.travis-ci.org/zthxxx/python-Speech_Recognition.png?branch=master)](https://travis-ci.org/zthxxx/python-Speech_Recognition)
 
 ### 项目简介
 
