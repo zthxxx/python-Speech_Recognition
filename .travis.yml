@@ -1,12 +1,13 @@
 ﻿language: python
+sudo: required
 python:
   - "3.5"
 
 # 执行安装前安装必要的依赖环境
 before_install:
-  - sudo apt-get install python3-numpy --yes
-  - sudo apt-get install python3-scipy --yes
-  - sudo apt-get install python3-matplotlib --yes
+  - apt-get install python3-numpy --yes
+  - apt-get install python3-scipy --yes
+  - apt-get install python3-matplotlib --yes
 
 install:
   - pip install numpy
