@@ -6,10 +6,10 @@ try:
 except:
     import Queue as queue
 import numpy
-from WaveOperate.Sonic import *
-from WaveOperate.WavePlot import *
-from WaveOperate.AudioPlay import *
-from WaveOperate.WaveFilter import *
+from .Sonic import *
+from .WavePlot import *
+from .AudioPlay import *
+from .WaveFilter import *
 
 
 class RecordConf:
@@ -136,6 +136,7 @@ if __name__ == '__main__':
 
     #########保存文件测试
     # recorder_main.record_speech_wav(record_conf)
+    # exit()
 
 
     ##########不保存录语音测试

@@ -6,7 +6,9 @@
 *.ini
 *.conf
 *.sql
-!Ring01.wav
+!WaveOperate/Ring01.wav
+!WaveOperate/RecordExample.wav
+!WaveOperate/RecordFilteredExample.wav
 !BaiduOAuthSample.ini
 __pycache__/
 nohup.out

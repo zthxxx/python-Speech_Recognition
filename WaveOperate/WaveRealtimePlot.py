@@ -2,7 +2,7 @@
 import numpy
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from WaveOperate.AudioRecord import *
+from .AudioRecord import *
 
 
 class RealtimeLine:

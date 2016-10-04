@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import wave
-from WaveOperate.Sonic import *
+from .Sonic import *
 
 def wav_file_block_read(filename, block_size=None):
     # 打开WAV文档

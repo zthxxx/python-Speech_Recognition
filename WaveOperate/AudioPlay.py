@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import threading
 import pyaudio
-from WaveOperate.Sonic import *
-from WaveOperate.WavFileReader import *
+from .Sonic import *
+from .WavFileReader import *
 
 class WavePlayer:
     def __init__(self, sound_conf=Sonic(), **kwargs):
