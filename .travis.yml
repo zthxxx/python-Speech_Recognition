@@ -1,17 +1,15 @@
 ﻿language: python
+python: "3.5"
 sudo: required
-install: true
-python:
-  - "3.5"
-
+ 
 before_install:
-  - "apt-get install python3-numpy --yes"
-  - "apt-get install python3-scipy --yes"
-  - "apt-get install python3-matplotlib --yes"
+  - sudo apt-get install -qq -y python3-numpy
+  - sudo apt-get install -qq -y python3-scipy
+  - sudo apt-get install -qq -y python3-matplotlib
 
 install:
-  - "pip install numpy"
-  - "pip install scipy"
+  - pip install numpy
+  - pip install scipy
 
 
 script: nosetests
