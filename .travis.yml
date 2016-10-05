@@ -1,8 +1,13 @@
 language: python
+sudo: required
 python:
-    - "3.4"
+    - "3.5"
+before_install:
+    - sudo apt-get install -y python3-numpy
+    - sudo apt-get install -y python3-scipy
+    - sudo apt-get install -y python3-matplotlab
 install:
     - pip install numpy
     - pip install scipy
     - pip install requirement.txt
-script: nosetests -v && flake8 *.py --max-line-length=110
+script: nosetests -s
