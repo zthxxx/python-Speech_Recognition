@@ -18,6 +18,7 @@ before_install:
     - ./configure && make
     - sudo make install
     - cd ..
+    - sudo pip install matplotlib
     - sudo pip install pyaudio
 
 install:
