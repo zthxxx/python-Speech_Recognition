@@ -8,5 +8,5 @@ before_install:
 install:
 #    - pip install numpy
 #    - pip install scipy
-    - pip install requirement.txt
+    - pip install -r requirement.txt
 script: nosetests -s
