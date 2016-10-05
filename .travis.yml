@@ -1,15 +1,12 @@
-﻿language: python
-python: "3.5"
-sudo: required
- 
-before_install:
-  - sudo apt-get install -qq -y python3-numpy
-  - sudo apt-get install -qq -y python3-scipy
-  - sudo apt-get install -qq -y python3-matplotlib
-
+language: python
+python:
+    - "2.6"
+    - "2.7"
+    - "3.2"
+    - "3.3"
+    - "3.4"
+    - "pypy"
 install:
-  - pip install numpy
-  - pip install scipy
-  - pip install -r requirement.txt
-
-script: nosetests
+    - pip install flake8 mock nose
+    - pip install .
+script: nosetests -v && flake8 *.py --max-line-length=110
