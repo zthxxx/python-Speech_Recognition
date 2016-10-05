@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 print(os.getcwd())
-from ..BaiduSpeech.SpeechRecognizer import *
+from BaiduSpeech.SpeechRecognizer import *
 logging.basicConfig(level=logging.INFO)
 
 def test_file_recognise():
