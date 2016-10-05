@@ -8,5 +8,5 @@ before_install:
 install:
 #    - pip install numpy
 #    - pip install scipy
-    - pip install -r requirements.txt
+    - pip install -r requirements.txt --timeout 600
 script: nosetests -s
