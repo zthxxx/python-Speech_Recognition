@@ -1,5 +1,5 @@
 cycler==0.10.0
-matplotlib==1.5.3
+# matplotlib==1.5.3
 # numpy==1.11.1
 # PyAudio==0.2.9
 pycurl==7.43.0
