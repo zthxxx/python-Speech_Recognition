@@ -1,12 +1,13 @@
-language: python
+﻿guage: python
 python:
-    - "2.6"
-    - "2.7"
-    - "3.2"
-    - "3.3"
-    - "3.4"
-    - "pypy"
+    - "3.5"
+before_install:
+    - sudo apt-get install python3-dev
+    - sudo apt-get install python3-numpy
+    - sudo apt-get install python3-scipy
+    - sudo apt-get install python3-matplotlib
 install:
-    - pip install flake8 mock nose
-    - pip install .
-script: nosetests -v && flake8 *.py --max-line-length=110
+    - pip install numpy
+    - pip install scipy
+    - pip install -r requirement.txt
+script: nosetests -s
