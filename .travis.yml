@@ -22,6 +22,7 @@ before_install:
 install:
     - sudo pip install matplotlib
     - sudo pip install pyaudio
+    - sudo pip install pycurl
     - sudo pip install -r requirements.txt --timeout 600
 
 script: nosetests -s
