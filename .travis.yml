@@ -17,6 +17,7 @@ before_install:
     - ./configure && make
     - sudo make install
     - cd ..
+    - sudo pip install pyaudio
 
 install:
     - pip install -r requirements.txt --timeout 600
