@@ -1,15 +1,20 @@
 language: python
-sudo: required
 dist: trusty
+sudo: required
+
 python:
     - "3.5"
+
 before_install:
+    - sudo apt-get install -y python3-dev
     - sudo apt-get install -y python3-numpy
     - sudo apt-get install -y python3-scipy
     - sudo apt-get install -y python3-pyaudio
+
 install:
-#    - pip install numpy
-#    - pip install scipy
     - pip install -r requirements.txt --timeout 600
-before_script: pwd
+
 script: nosetests -s
+
+notifications:
+    email: false

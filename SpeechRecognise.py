@@ -10,11 +10,11 @@ except ImportError:
         from cStringIO import StringIO
     except ImportError:
         from StringIO import StringIO
-from .BaiduSpeech.SpeechRecognizer import *
+from BaiduSpeech.SpeechRecognizer import *
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    baidu_oauth_conf = 'BaiduOAuth.ini'
+    baidu_oauth_conf = 'BaiduSpeech./BaiduOAuth.ini'
     # api_key, secret_key = get_baidu_api_key_config(baidu_oauth_conf)
     # access_token = get_baidu_token_url(api_key, secret_key)
     # save_baidu_token_config(baidu_oauth_conf, access_token)
@@ -36,10 +36,13 @@ if __name__ == "__main__":
     record_conf = RecordConf(**record_conf)
     logging.warning("speech recognition record start.")
     speech_recognizer = BaiduSpeechRecognizer(access_token, sonic_conf, record_conf)
+
     # for err_no, result in speech_recognizer.speech_recognition():
     #     print(err_no, result)
-    speech_recognizer.wav_file_recognize_async('WaveOperate/RecordExample.wav', print, print)
-    speech_recognizer.wav_file_recognize_async('WaveOperate/RecordFilteredExample.wav', print, print)
+
+    # speech_recognizer.wav_file_recognize_async('WaveOperate/RecordExample.wav', print, print)
+    # speech_recognizer.wav_file_recognize_async('WaveOperate/RecordFilteredExample.wav', print, print)
+
     speech_recognizer.speech_recognize_async(print, print)
 
 
