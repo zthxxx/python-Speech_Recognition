@@ -11,18 +11,18 @@ before_install:
     - sudo apt-get install -y python3-scipy
     - sudo apt-get install -y python3-matplotlib
     - sudo apt-get install -y libasound-dev
-    - sudo apt-get install -y python3-pyaudio
     - wget http://portaudio.com/archives/pa_stable_v19_20140130.tgz
     - tar -zxvf pa_stable_v19_20140130.tgz
     - cd portaudio/
     - ./configure && make
     - sudo make install
     - cd ..
-    - sudo pip3 install matplotlib
-    - sudo pip3 install pyaudio
+    - sudo apt-get install -y python3-pyaudio
 
 install:
-    - pip3 install -r requirements.txt --timeout 600
+    - sudo pip install matplotlib
+    - sudo pip install pyaudio
+    - sudo pip install -r requirements.txt --timeout 600
 
 script: nosetests -s
 
