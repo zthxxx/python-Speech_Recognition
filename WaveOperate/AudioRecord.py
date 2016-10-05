@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 import logging
+import threading
 from datetime import datetime
 try:
     import queue
 except:
     import Queue as queue
+import pyaudio
 import numpy
 from .Sonic import *
-from .WavePlot import *
-from .AudioPlay import *
 from .WaveFilter import *
 
 
@@ -111,47 +111,47 @@ class AudioRecorder:
         self.save_wave_file(filename)
         print(filename, "saved")
 
-
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
-    sonic_conf = {
-        'channels':1,
-        'sample_width':2,
-        'sample_frequency':16000,
-        'sample_length':2048
-    }
-    sonic_conf = Sonic(**sonic_conf)
-    bandpass_filter = butter_bandpass(150, 2000, sonic_conf.sample_frequency)
-    record_conf = {
-        'gate_value':700,
-        'series_min_count':30,
-        'block_min_count':16,
-        'speech_filter':bandpass_filter
-    }
-    record_conf = RecordConf(**record_conf)
-
-    wave_player = WavePlayer(sonic_conf)
-    recorder_main = AudioRecorder(sonic_conf, input_device_index=1)
-    # recorder_assist = AudioRecorder(sonic_conf, input_device_index=2)
-
-    #########保存文件测试
-    # recorder_main.record_speech_wav(record_conf)
-    # exit()
-
-
-    ##########不保存录语音测试
-    # recording = recorder_main.record_speech(record_conf)
-    # for sonic in recording:
-    #     audio_data = sonic.wave_bin_data
-    #     # recorder.save_wave_file(datetime.now().strftime("%Y%m%d%H%M%S") + ".wav", wave_data)
-    #     wave_player.wave_play(audio_data)
-
-    #########实时语音测试
-    recording_main = recorder_main.record_realtime(bandpass_filter)
-    for bin_audio_data in recording_main:
-        wave_player.wave_play_async(bin_audio_data)
-
-    print("OK!")
+#
+# if __name__ == '__main__':
+#     logging.basicConfig(level=logging.DEBUG)
+#     sonic_conf = {
+#         'channels':1,
+#         'sample_width':2,
+#         'sample_frequency':16000,
+#         'sample_length':2048
+#     }
+#     sonic_conf = Sonic(**sonic_conf)
+#     bandpass_filter = butter_bandpass(150, 2000, sonic_conf.sample_frequency)
+#     record_conf = {
+#         'gate_value':700,
+#         'series_min_count':30,
+#         'block_min_count':16,
+#         'speech_filter':bandpass_filter
+#     }
+#     record_conf = RecordConf(**record_conf)
+#
+#     wave_player = WavePlayer(sonic_conf)
+#     recorder_main = AudioRecorder(sonic_conf, input_device_index=1)
+#     # recorder_assist = AudioRecorder(sonic_conf, input_device_index=2)
+#
+#     #########保存文件测试
+#     # recorder_main.record_speech_wav(record_conf)
+#     # exit()
+#
+#
+#     ##########不保存录语音测试
+#     # recording = recorder_main.record_speech(record_conf)
+#     # for sonic in recording:
+#     #     audio_data = sonic.wave_bin_data
+#     #     # recorder.save_wave_file(datetime.now().strftime("%Y%m%d%H%M%S") + ".wav", wave_data)
+#     #     wave_player.wave_play(audio_data)
+#
+#     #########实时语音测试
+#     recording_main = recorder_main.record_realtime(bandpass_filter)
+#     for bin_audio_data in recording_main:
+#         wave_player.wave_play_async(bin_audio_data)
+#
+#     print("OK!")
 
 
 
