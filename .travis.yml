@@ -1,9 +1,10 @@
 ﻿language: python
 sudo: required
+install: true
 python:
   - "3.5"
 
-before_script:
+before_install:
   - "apt-get install python3-numpy --yes"
   - "apt-get install python3-scipy --yes"
   - "apt-get install python3-matplotlib --yes"
