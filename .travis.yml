@@ -4,7 +4,7 @@ python:
   - "3.5"
 
 # 执行安装前安装必要的依赖环境
-before_install:
+before_script:
   - apt-get install python3-numpy --yes
   - apt-get install python3-scipy --yes
   - apt-get install python3-matplotlib --yes
@@ -12,6 +12,6 @@ before_install:
 install:
   - pip install numpy
   - pip install scipy
-  - pip install -r requirements.txt --use-mirrors
+
 
 script: nosetests
