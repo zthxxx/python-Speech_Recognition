@@ -6,7 +6,7 @@ before_install:
     - sudo apt-get install -y python3-numpy
     - sudo apt-get install -y python3-scipy
 install:
-    - pip install numpy
-    - pip install scipy
+#    - pip install numpy
+#    - pip install scipy
     - pip install requirement.txt
 script: nosetests -s
