@@ -2,6 +2,7 @@ language: python
 python:
     - "3.4"
 install:
-    - pip install flake8 mock nose
-    - pip install .
+    - pip install numpy
+    - pip install scipy
+    - pip install requirement.txt
 script: nosetests -v && flake8 *.py --max-line-length=110
