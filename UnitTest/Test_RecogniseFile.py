@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+print(os.getcwd())
 from ..BaiduSpeech.SpeechRecognizer import *
 logging.basicConfig(level=logging.INFO)
 

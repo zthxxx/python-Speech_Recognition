@@ -11,4 +11,5 @@ install:
 #    - pip install numpy
 #    - pip install scipy
     - pip install -r requirements.txt --timeout 600
+before_script: pwd
 script: nosetests -s
