@@ -4,6 +4,7 @@
 
 [![Build Status](https://api.travis-ci.org/zthxxx/python-Speech_Recognition.png?branch=master)](https://travis-ci.org/zthxxx/python-Speech_Recognition)
 [![Coverage Status](https://coveralls.io/repos/github/zthxxx/python-Speech_Recognition/badge.svg?branch=master)](https://coveralls.io/github/zthxxx/python-Speech_Recognition?branch=master)
+[![Code Climate](https://codeclimate.com/github/zthxxx/python-Speech_Recognition/badges/gpa.svg)](https://codeclimate.com/github/zthxxx/python-Speech_Recognition)
 
 ### 项目简介
 
