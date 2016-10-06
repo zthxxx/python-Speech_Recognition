@@ -6,6 +6,7 @@ python:
     - "3.5"
 
 before_install:
+    - python --version
     - pip -V
     - sudo apt-get install -y python3-dev
     - sudo apt-get install -y python3-numpy
@@ -13,12 +14,17 @@ before_install:
     - pip install scipy
     - sudo apt-get install -y python3-matplotlib
     - sudo apt-get install -y libasound-dev
+    - ProjectFolder=$(pwd)
+    - cd ..
     - wget http://portaudio.com/archives/pa_stable_v19_20140130.tgz
     - tar -zxvf pa_stable_v19_20140130.tgz
     - cd portaudio/
     - ./configure && make
     - sudo make install
     - cd ..
+    - rm -f pa_stable_v19_20140130.tgz
+    - rm -rf portaudio/
+    - cd $ProjectFolder
     - sudo apt-get install -y python3-pyaudio
     - pip install matplotlib
     - pip install pyaudio
@@ -33,7 +39,9 @@ before_install:
 install:
     - pip install -r requirements.txt --timeout 600
 
-script: python -m nose -s --with-coverage --cover-package=BaiduSpeech,ConfigFileInfoParser,WaveOperate,WebCurl
+script:
+    - packages="BaiduSpeech,ConfigFileInfoParser,WaveOperate,WebCurl"
+    - python -m nose -s --with-coverage --cover-package=$packages
 
 after_success:
     coveralls
