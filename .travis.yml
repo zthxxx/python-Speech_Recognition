@@ -6,35 +6,7 @@ python:
     - "3.5"
 
 before_install:
-    - python --version
-    - pip -V
-    - sudo apt-get install -y python3-dev
-    - sudo apt-get install -y python3-numpy
-    - sudo apt-get install -y python3-scipy
-    - pip install scipy
-    - sudo apt-get install -y python3-matplotlib
-    - sudo apt-get install -y libasound-dev
-    - ProjectFolder=$(pwd)
-    - cd ..
-    - wget http://portaudio.com/archives/pa_stable_v19_20140130.tgz
-    - tar -zxvf pa_stable_v19_20140130.tgz
-    - cd portaudio/
-    - ./configure && make
-    - sudo make install
-    - cd ..
-    - rm -f pa_stable_v19_20140130.tgz
-    - rm -rf portaudio/
-    - cd $ProjectFolder
-    - sudo apt-get install -y python3-pyaudio
-    - pip install matplotlib
-    - pip install pyaudio
-    - sudo apt-get install -y libcurl4-gnutls-dev
-    - sudo apt-get install -y python3-pycurl
-    - sudo apt-get install -y python3-pycurl-dbg
-    - pip install pycurl
-    - pip install --upgrade nose
-    - pip install coverage
-    - pip install coveralls
+    - sudo ./travis_env_init.sh
 
 install:
     - pip install -r requirements.txt --timeout 600
