@@ -26,7 +26,7 @@ before_install:
     - sudo apt-get install -y python3-pycurl
     - sudo apt-get install -y python3-pycurl-dbg
     - pip install pycurl
-    - pip install nose
+    - pip install --upgrade nose
     - pip install coverage
     - pip install coveralls
 
