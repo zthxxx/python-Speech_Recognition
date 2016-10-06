@@ -18,16 +18,16 @@ before_install:
     - sudo make install
     - cd ..
     - sudo apt-get install -y python3-pyaudio
-    - sudo pip install matplotlib
-    - sudo pip install pyaudio
+    - sudo python3.5 -m pip install matplotlib
+    - sudo python3.5 -m pip install pyaudio
     - sudo apt-get install -y libcurl4-gnutls-dev
     - sudo apt-get install -y python3-pycurl
     - sudo apt-get install -y python3-pycurl-dbg
-    - sudo pip uninstall -y pycurl
-    - sudo pip install pycurl
+    - sudo python3.5 -m pip uninstall -y pycurl
+    - sudo python3.5 -m pip install pycurl
 
 install:
-    - sudo pip install -r requirements.txt --timeout 600
+    - sudo python3.5 -m pip install -r requirements.txt --timeout 600
 
 script: python3.5 -m nose -s
 
