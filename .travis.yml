@@ -27,11 +27,16 @@ before_install:
     - sudo apt-get install -y python3-pycurl
     - sudo apt-get install -y python3-pycurl-dbg
     - pip install pycurl
+    - pip install coverage
+    - pip install coveralls
 
 install:
     - pip install -r requirements.txt --timeout 600
 
-script: python -m nose -s
+script: python -m nose -s --with-coverage
+
+after_success:
+    coveralls
 
 notifications:
     email: true
