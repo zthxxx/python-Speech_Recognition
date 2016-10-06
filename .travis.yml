@@ -14,7 +14,7 @@ install:
 
 script:
     - packages="BaiduSpeech,ConfigFileInfoParser,WaveOperate,WebCurl"
-    - python -m nose -s --with-coverage --cover-package=$packages
+    - python -m nose -vs --with-coverage --cover-package=$packages
 
 after_success:
     coveralls
