@@ -19,7 +19,7 @@ class InitializationConfigParser:
             self.config.read(self.path)
             keys = self.config.options(field)
         except ConfigParser.NoSectionError:
-            return None
+            return result
         for key in keys:
             result[key] = self.GetOneKeyValue(field,key)
         return result

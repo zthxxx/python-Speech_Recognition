@@ -33,7 +33,7 @@ before_install:
 install:
     - pip install -r requirements.txt --timeout 600
 
-script: python -m nose -s --with-coverage --cover-package=ALL
+script: python -m nose -s --with-coverage --cover-package=Speech_Recognition
 
 after_success:
     coveralls
