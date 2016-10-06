@@ -34,4 +34,4 @@ install:
 script: python -m nose -s
 
 notifications:
-    email: false
+    email: true
