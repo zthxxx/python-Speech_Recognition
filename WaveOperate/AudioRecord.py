@@ -21,7 +21,9 @@ class RecordConf:
         self.speech_filter = speech_filter
 
 class AudioRecorder:
-    def __init__(self, sonic=Sonic(), block_size=None, **kwargs):
+    def __init__(self, sonic=None, block_size=None, **kwargs):
+        if not sonic:
+            sonic = Sonic()
         self.sonic = sonic
         self.channels = sonic.channels     #声道数
         self.sample_width = sonic.sample_width     #量化宽度(byte)

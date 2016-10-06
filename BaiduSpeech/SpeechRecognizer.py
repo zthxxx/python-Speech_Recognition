@@ -13,6 +13,7 @@ except ImportError:
 from WebCurl.WebCurl import *
 from ConfigFileInfoParser.InitializationConfigParser import InitializationConfigParser
 from WaveOperate.Sonic import *
+from WaveOperate.WavFileReader import *
 from WaveOperate.AudioRecord import *
 from WaveOperate.WaveFilter import *
 
@@ -47,7 +48,11 @@ def get_mac_address():
     return "-".join([mac[e:e + 2] for e in range(0, 11, 2)])
 
 class BaiduSpeechRecognizer:
-    def __init__(self, token, sonic_conf=Sonic(), record_conf=RecordConf()):
+    def __init__(self, token, sonic_conf=None, record_conf=None):
+        if not sonic_conf:
+            sound_conf = Sonic()
+        if not record_conf:
+            sound_conf = RecordConf()
         self.token = token
         self.sonic_conf = sonic_conf
         self.record_conf = record_conf

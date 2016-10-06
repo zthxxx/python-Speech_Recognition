@@ -29,7 +29,7 @@ before_install:
 install:
     - sudo pip install -r requirements.txt --timeout 600
 
-script: nosetests -s
+script: python3.5 -m nose -s
 
 notifications:
     email: false

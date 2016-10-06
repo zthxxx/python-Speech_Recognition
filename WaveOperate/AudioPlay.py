@@ -5,7 +5,9 @@ from .Sonic import *
 from .WavFileReader import *
 
 class WavePlayer:
-    def __init__(self, sound_conf=Sonic(), **kwargs):
+    def __init__(self, sound_conf=None, **kwargs):
+        if not sound_conf:
+            sound_conf = Sonic()
         channels = sound_conf.channels
         sample_width = sound_conf.sample_width
         sample_frequency = sound_conf.sample_frequency
