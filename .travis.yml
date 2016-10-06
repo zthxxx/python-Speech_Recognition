@@ -6,10 +6,7 @@ python:
     - "3.5"
 
 before_install:
-    - sudo echo start
-    - ls -al
     - source travis_env_init.sh
-    - sudo echo second
 
 install:
     - pip install -r requirements.txt --timeout 600
