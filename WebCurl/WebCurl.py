@@ -2,7 +2,6 @@
 import wave
 import time
 import logging
-import pycurl
 try:
     from io import BytesIO as StringIO
 except ImportError:
@@ -10,6 +9,7 @@ except ImportError:
         from cStringIO import StringIO
     except ImportError:
         from StringIO import StringIO
+import pycurl
 
 def time_reckon(function):
     def decorated_fun(*args,**kwargs):
