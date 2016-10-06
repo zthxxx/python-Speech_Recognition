@@ -18,7 +18,7 @@ before_install:
     - sudo make install
     - cd ..
     - sudo apt-get install -y python3-pyaudio
-    - pip -m pip -V
+    - pip -V
     - pip install matplotlib
     - pip install pyaudio
     - pip install nose
