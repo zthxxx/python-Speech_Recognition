@@ -7,7 +7,7 @@ python:
 
 before_install:
     - sudo echo start
-    - sudo travis_env_init.sh
+    - travis_env_init.sh
     - sudo echo second
 
 install:
