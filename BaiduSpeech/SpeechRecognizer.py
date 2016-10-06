@@ -15,7 +15,6 @@ from ConfigFileInfoParser.InitializationConfigParser import InitializationConfig
 from WaveOperate.Sonic import *
 from WaveOperate.WavFileReader import *
 from WaveOperate.AudioRecord import *
-from WaveOperate.WaveFilter import *
 from WebCurl.WebCurl import *
 
 def get_baidu_api_key_config(path):

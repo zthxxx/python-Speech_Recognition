@@ -40,7 +40,3 @@ def wav_file_plotting(filename, *args, **kwargs):
     sonic = wav_file_read(filename)
     wave_plotting(sonic, *args, **kwargs)
 
-
-if __name__ == '__main__':
-    # wav_file_plotting('ding.wav')
-    wav_file_plotting("Ring01.wav", block=True)

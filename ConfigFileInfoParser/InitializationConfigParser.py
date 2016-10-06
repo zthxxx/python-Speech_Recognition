@@ -41,6 +41,12 @@ class InitializationConfigParser:
         return result
 
     def SetOneKeyValue(self, filed, key, value):
+        '''
+        :param filed: 字段
+        :param key: 键名 (注： 这里键名最好全用小写，因为大写的键名最后保存时也是以小写保存的)
+        :param value: 值
+        :return:
+        '''
         try:
             self.config.read(self.path)
             self.config.options(filed)

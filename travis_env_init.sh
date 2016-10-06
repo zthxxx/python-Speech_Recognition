@@ -5,6 +5,8 @@ __COMMENTS__='
 # python: 3.5
 # pip: 8.1.2 for python3.5
 # sudo: required
+# how to use: in travis, use the script to run:
+#    souce travis_env_init.sh
 '
 
 

@@ -50,8 +50,3 @@ def wav_file_play(filename):
         if hasattr(audio_player,'close'):
             audio_player.close()
 
-
-if __name__ == '__main__':
-    wav_file_play('Ring01.wav')
-
-

@@ -10,6 +10,7 @@ except ImportError:
         from cStringIO import StringIO
     except ImportError:
         from StringIO import StringIO
+from WaveOperate.WaveFilter import *
 from BaiduSpeech.SpeechRecognizer import *
 
 if __name__ == "__main__":
