@@ -6,7 +6,7 @@ python:
     - "3.5"
 
 before_install:
-    - sudo source
+    # command in shell script need sudo
     - source travis_env_init.sh
 
 install:

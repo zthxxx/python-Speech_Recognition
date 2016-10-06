@@ -7,9 +7,11 @@ __COMMENTS__='
 # sudo: required
 '
 
-echo "python environment pre install start."
+
 python --version
 pip -V
+
+echo "python environment pre install start."
 
 # Scientific computation packages
 sudo apt-get install -y python3-dev
