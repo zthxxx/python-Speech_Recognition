@@ -10,13 +10,13 @@ except ImportError:
         from cStringIO import StringIO
     except ImportError:
         from StringIO import StringIO
-from WebCurl.WebCurl import *
+
 from ConfigFileInfoParser.InitializationConfigParser import InitializationConfigParser
 from WaveOperate.Sonic import *
 from WaveOperate.WavFileReader import *
 from WaveOperate.AudioRecord import *
 from WaveOperate.WaveFilter import *
-
+from WebCurl.WebCurl import *
 
 def get_baidu_api_key_config(path):
     ini_Parser = InitializationConfigParser(path)
