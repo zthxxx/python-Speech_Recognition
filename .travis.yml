@@ -6,10 +6,11 @@ python:
     - "3.5"
 
 before_install:
+    - pip -V
     - sudo apt-get install -y python3-dev
     - sudo apt-get install -y python3-numpy
     - sudo apt-get install -y python3-scipy
-    - python -m pip install scipy
+    - pip install scipy
     - sudo apt-get install -y python3-matplotlib
     - sudo apt-get install -y libasound-dev
     - wget http://portaudio.com/archives/pa_stable_v19_20140130.tgz
@@ -19,17 +20,16 @@ before_install:
     - sudo make install
     - cd ..
     - sudo apt-get install -y python3-pyaudio
-    - python -m pip -V
-    - python -m pip install matplotlib
-    - python -m pip install pyaudio
-    - python -m pip install nose
+    - pip install matplotlib
+    - pip install pyaudio
+    - pip install nose
     - sudo apt-get install -y libcurl4-gnutls-dev
     - sudo apt-get install -y python3-pycurl
     - sudo apt-get install -y python3-pycurl-dbg
-    - python -m pip install pycurl
+    - pip install pycurl
 
 install:
-    - python -m pip install -r requirements.txt --timeout 600
+    - pip install -r requirements.txt --timeout 600
 
 script: python -m nose -s
 
