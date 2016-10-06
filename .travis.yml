@@ -8,8 +8,7 @@ python:
 before_install:
     - sudo echo start
     - ls -al
-    - source
-    - ./travis_env_init.sh
+    - source travis_env_init.sh
     - sudo echo second
 
 install:
