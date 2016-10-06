@@ -16,7 +16,8 @@ def test_file_recognise():
     # speech_recognizer = BaiduSpeechRecognizer(access_token)
     '''
     speech_recognizer = BaiduSpeechRecognizer(_baidu_test_token)
-    for filename in ['RecordExample.wav', 'RecordFilteredExample.wav']:
+    # ['RecordExample.wav', 'RecordFilteredExample.wav']
+    for filename in ['RecordFilteredExample.wav']:
         err_no, result = speech_recognizer.wav_file_recognition('WaveOperate/' + filename)
         assert err_no is 0
         assert True in ['把空调调到25度' in item for item in result]
