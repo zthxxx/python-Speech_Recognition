@@ -68,16 +68,17 @@ class AudioRecorder:
         record_thread = threading.Thread(target=record_async, args=(self,))
         record_thread.setDaemon(True)
         record_thread.start()
+        half_block_size = self.block_size // 2
         bin_audio_data = self.record_cache.get()
-        last_data = bin_audio_data
+        last_data = bin_audio_data[-self.block_size:]
         while True:
             bin_audio_data = self.record_cache.get()
             if speech_filter:
                 audio_data = numpy.fromstring(last_data + bin_audio_data, dtype=number_type.get(self.sample_width))
                 audio_data = speech_filter(audio_data)
-                audio_data = audio_data[self.block_size:]
+                audio_data = audio_data[half_block_size:]
                 audio_data = number_type.get(self.sample_width)(audio_data)
-                last_data = bin_audio_data
+                last_data = bin_audio_data[-self.block_size:]
                 bin_audio_data = bytes(audio_data)
             yield bin_audio_data
 

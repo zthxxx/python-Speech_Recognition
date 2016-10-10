@@ -54,6 +54,6 @@ if __name__ == '__main__':
 
     # voice_record_save_pretest()
 
-    #voice_record_repeat_pretest()
+    voice_record_repeat_pretest()
 
-    record_realtime_play_pretest()
+    # record_realtime_play_pretest()
