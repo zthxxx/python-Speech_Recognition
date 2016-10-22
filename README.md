@@ -120,7 +120,8 @@ python3.5 SpeechRecognise.py
 9. 参数化指令  
     9.1 Cortana XML 指令解析  
 
-**当然，以上并没有完全实现。。。。  **
+**当然，以上并没有完全实现。。。**
+
 实现的项目：  
 
 - [x] pyaudio录音  
