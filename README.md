@@ -20,7 +20,7 @@ virtualenv --no-site-packages venv
 第一次会自动安装一些虚拟环境文件，安装完后再激活虚拟环境，  
 Windows 环境下使用：
 ```bash
-venv\Scirpts\activate
+venv\Scripts\activate
 ```
 Linux 环境下使用：
 ```bash
